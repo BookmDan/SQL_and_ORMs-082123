@@ -33,7 +33,24 @@ class Pet:
         db_cursor.execute(sql)
         db_connection.commit()
 
+    def save(self):
+        sql="""
+            INSERT INTO pets (name, species)
+            VALUES (?,?)
+        """
+        # bound parameter, prevents sql injections 
+        
+        db_cursor.execute(sql, (self.name, self.species)) 
+        db_connection.commit()
+
+        self.id = db_cursor.lastrowid
 
 
     
     # Pet("Moose", "dog")
+
+    @classmethod
+    def create(cls, name, species):
+        pet = cls(name, species)
+        pet.save()
+        return pet
