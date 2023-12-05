@@ -46,6 +46,8 @@ class Pet:
 
         self.id = db_cursor.lastrowid
 
+        Pet.all[self.id] = self
+
 
     
     # Pet("Moose", "dog")
@@ -73,3 +75,53 @@ class Pet:
         """
 
         db_cursor.execute(sql, (self.id,))
+
+    @classmethod 
+    def instance_from_db(cls, row):
+        #check dictionary for existing instance of pet, using primary key 
+        pet = cls.all.get(row[0])
+
+        if pet: 
+            pet.name = row[1]
+            pet.species = row[2]
+        else:
+            pet = cls(row[1], row[2])
+            pet.id = row[0]
+            cls.all[pet.id] = pet
+        return pet
+    
+    @classmethod
+    def get_all(cls):
+        sql = """
+            SELECT * FROM pets
+
+        """
+
+        rows = db_cursor.execute(sql).fetchall()
+        return [cls.instance_from_db(row) for row in rows ]
+    
+    @classmethod
+    def find_by_id(cls, id):
+        sql = """
+            SELECT * 
+            FROM pets 
+            WHERE id = ? 
+        """
+
+        row = db_cursor.execute(sql, (id,)).fetchone()
+
+        return cls.instance_from_db(row) if row else None 
+    
+    @classmethod
+    def find_by_name(cls, name):
+        sql = """
+            SELECT * 
+            FROM pets 
+            WHERE name = ? 
+        """
+
+        row = db_cursor.execute(sql, (name,)).fetchone()
+
+        return cls.instance_from_db(row) if row else None 
+
+
