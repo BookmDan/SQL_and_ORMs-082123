@@ -2,6 +2,7 @@ from __init__ import db_connection, db_cursor
 # from owner import Owner
 
 class Pet:
+    all = {}
 
     def __init__(self, name, species, id=None):
         self.id = id
@@ -54,3 +55,21 @@ class Pet:
         pet = cls(name, species)
         pet.save()
         return pet
+    
+    def update(self):
+        sql = """
+            UPDATE pets 
+            SET name = ?, species = ? 
+            WHERE  id = ? 
+        """ 
+
+        db_cursor.execute(sql, (self.name, self.species, self.id))
+        db_connection.commit()
+
+    def delete(self):
+        sql = """
+            DELETE from pets 
+            WHERE id = ? 
+        """
+
+        db_cursor.execute(sql, (self.id,))

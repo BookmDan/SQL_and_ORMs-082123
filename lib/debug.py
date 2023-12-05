@@ -24,7 +24,15 @@ snoopy = Pet("Snoopy", "dog")
 snoopy.save()
 
 lemon = Pet.create("Lemon", "dog")
+jasmine = Pet.create("jasmine", "Cat")
+jasmine.name = "Jazzy"
+jasmine.species = "gato"
+jasmine.update()
 
+cujo = Pet.create("Cujo", "dog")
+cujo.species = "savage"
+cujo.update()
+cujo.delete()
 
 print("")
 
