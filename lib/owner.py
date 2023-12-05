@@ -114,15 +114,15 @@ class Owner:
     
     #### Retrieving Pets associated with this owner ####
 
-    def pets(self):
-        from pet import Pet
+    # def pets(self):
+    #     from pet import Pet
 
-        sql = """
-            SELECT * FROM pets
-            WHERE owner_id = ?
-        """
+    #     sql = """
+    #         SELECT * FROM pets
+    #         WHERE owner_id = ?
+    #     """
 
-        db_cursor.execute(sql, (self.id, ))
+    #     db_cursor.execute(sql, (self.id, ))
 
-        rows = db_cursor.fetchall()
-        return [Pet.instance_from_db(row) for row in rows]
+    #     rows = db_cursor.fetchall()
+    #     return [Pet.instance_from_db(row) for row in rows]
